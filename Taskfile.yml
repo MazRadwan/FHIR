@@ -36,8 +36,44 @@ tasks:
   test:
     desc: Run all tests
     cmds:
+      - mkdir -p tests/results
       - ./tests/test_patient.sh
       - ./tests/test_observation.sh
+      - ./tests/test_integration.sh
+
+  test-patient:
+    desc: Run Patient tests only
+    cmds:
+      - mkdir -p tests/results
+      - ./tests/test_patient.sh
+
+  test-observation:
+    desc: Run Observation tests only
+    cmds:
+      - mkdir -p tests/results
+      - ./tests/test_observation.sh
+
+  test-integration:
+    desc: Run integration tests only
+    cmds:
+      - mkdir -p tests/results
+      - ./tests/test_integration.sh
+
+  test-ci:
+    desc: Run CI/CD simulation
+    cmds:
+      - echo "Running CI/CD simulation..."
+      - task: start
+      - task: test
+      - task: stop
+      - echo "CI/CD simulation completed successfully!"
+
+  build-multi-arch:
+    desc: Build multi-architecture Docker images
+    cmds:
+      - docker buildx create --name fhir-builder --use --bootstrap || true
+      - docker buildx build --platform linux/amd64,linux/arm64 -t fhir-sandbox:latest . || echo "Using compose image"
+      - docker buildx rm fhir-builder || true
 
   clean:
     desc: Clean up containers and volumes
