@@ -1,0 +1,135 @@
+# FHIR Sandbox Project .gitignore
+
+# ===============================
+# PROJECT SPECIFIC
+# ===============================
+
+# PRD and project documentation (internal use only)
+PRD.md
+CLAUDE.md
+TASK_PLAN.md
+
+# Cursor IDE configuration
+.cursorrules
+.cursor/
+
+# Local environment and config files
+.env
+.env.local
+.env.production
+.env.development
+
+# Docker volumes and data
+data/
+logs/
+volumes/
+
+# Test results and coverage
+test-results/
+coverage/
+*.log
+
+# Postman generated files
+postman/generated/
+postman/*.json.bak
+
+# Shell script logs
+setup.log
+test.log
+
+# ===============================
+# MACOS
+# ===============================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ===============================
+# DOCKER
+# ===============================
+.dockerignore
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# ===============================
+# NODE/NPM
+# ===============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+.pnp.*
+
+# ===============================
+# JAVA
+# ===============================
+*.class
+*.jar
+*.war
+*.ear
+target/
+build/
+.gradle/
+.m2/
+
+# ===============================
+# IDE
+# ===============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===============================
+# TEMPORARY FILES
+# ===============================
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# ===============================
+# SECURITY
+# ===============================
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# ===============================
+# MISC
+# ===============================
+*.pid
+*.seed
+*.pid.lock
+.nyc_output
+.cache/

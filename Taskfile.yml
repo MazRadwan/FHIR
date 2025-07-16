@@ -1,0 +1,64 @@
+version: '3'
+
+tasks:
+  start:
+    desc: Start FHIR server
+    cmds:
+      - docker-compose up -d
+      - echo "FHIR server starting at http://localhost:8080/fhir"
+      - echo "Waiting for server to be ready..."
+      - sleep 15
+      - task: status
+
+  stop:
+    desc: Stop FHIR server
+    cmds:
+      - docker-compose down
+
+  restart:
+    desc: Restart FHIR server
+    cmds:
+      - task: stop
+      - task: start
+
+  status:
+    desc: Check FHIR server status
+    cmds:
+      - docker ps --filter "name=fhir-sandbox"
+      - echo "Testing metadata endpoint..."
+      - curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" http://localhost:8080/fhir/metadata || echo "Server not responding"
+
+  logs:
+    desc: View FHIR server logs
+    cmds:
+      - docker-compose logs -f fhir-server
+
+  test:
+    desc: Run all tests
+    cmds:
+      - ./tests/test_patient.sh
+      - ./tests/test_observation.sh
+
+  clean:
+    desc: Clean up containers and volumes
+    cmds:
+      - docker-compose down -v
+      - docker system prune -f
+
+  metadata:
+    desc: Fetch FHIR capability statement
+    cmds:
+      - curl -s http://localhost:8080/fhir/metadata | jq .
+
+  patient:
+    desc: Create sample patient
+    cmds:
+      - |
+        curl -X POST http://localhost:8080/fhir/Patient \
+          -H "Content-Type: application/fhir+json" \
+          -d '{
+            "resourceType": "Patient",
+            "name": [{"family": "Doe", "given": ["John"]}],
+            "gender": "male",
+            "birthDate": "1990-01-01"
+          }' | jq .
