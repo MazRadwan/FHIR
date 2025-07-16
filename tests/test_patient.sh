@@ -95,16 +95,21 @@ EOF
 test_create_patient() {
     test_start "Create Patient via POST"
     
-    # Make POST request and capture response
-    RESPONSE=$(curl -s -X POST "$FHIR_BASE_URL/Patient" \
+    # Use temporary files to capture headers and body separately
+    TMP_HEADERS=$(mktemp)
+    TMP_BODY=$(mktemp)
+
+    HTTP_CODE=$(curl -s -o "$TMP_BODY" -D "$TMP_HEADERS" -X POST "$FHIR_BASE_URL/Patient" \
         -H "Content-Type: application/fhir+json" \
         -H "Accept: application/fhir+json" \
         -d @"$TEST_PATIENT_JSON" \
-        -w "HTTPSTATUS:%{http_code};LOCATION:%{header_location}")
-    
-    HTTP_CODE=$(echo "$RESPONSE" | grep -o "HTTPSTATUS:[0-9]*" | cut -d: -f2)
-    LOCATION=$(echo "$RESPONSE" | grep -o "LOCATION:[^;]*" | cut -d: -f2-)
-    BODY=$(echo "$RESPONSE" | sed 's/HTTPSTATUS:[0-9]*;//g' | sed 's/LOCATION:[^;]*;//g')
+        -w "%{http_code}")
+
+    LOCATION=$(grep -i '^Location:' "$TMP_HEADERS" | awk '{print $2}' | tr -d '\r')
+    BODY=$(cat "$TMP_BODY")
+
+    # Clean up temporary files
+    rm -f "$TMP_HEADERS" "$TMP_BODY"
     
     # Test HTTP status code
     if [[ "$HTTP_CODE" == "201" ]]; then
