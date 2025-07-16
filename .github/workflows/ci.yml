@@ -61,7 +61,7 @@ jobs:
       if: always()
       with:
         # Replace '/' in platform string with '-' to create a valid artifact name
-        name: test-results-${{ replace(matrix.platform, '/', '-') }}
+        name: test-results-${{ matrix.platform == 'linux/amd64' && 'linux-amd64' || 'linux-arm64' }}
         path: tests/results/
         retention-days: 30
     
