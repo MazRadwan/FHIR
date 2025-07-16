@@ -4,12 +4,12 @@
 
 This document provides a comprehensive security analysis of the FHIR Sandbox R4 project, identifying potential threats, vulnerabilities, and concrete hardening measures for production deployment.
 
-**⚠️ IMPORTANT:** This is currently a **development/learning configuration** with intentionally relaxed security settings for rapid setup and educational purposes.
+**⚠️ IMPORTANT:** This is currently a **development/demo configuration** with intentionally relaxed security settings for rapid setup and demonstration purposes.
 
 ## 🎯 Current Security Posture
 
 ### Development Configuration
-- **Purpose:** Learning and development
+- **Purpose:**  demonstration and learning
 - **Environment:** Local development only
 - **Data:** Non-sensitive, ephemeral test data
 - **Network:** Localhost access only
@@ -19,7 +19,7 @@ This document provides a comprehensive security analysis of the FHIR Sandbox R4 
 ### Security Assumptions
 - **Trusted Network:** Local development environment
 - **Temporary Data:** H2 in-memory database (no persistence)
-- **Single User:** Developer/learner access only
+- **Single User:** Developer/demonstrator access only
 - **Controlled Access:** No external network exposure
 
 ## 🚨 Identified Threats
@@ -436,7 +436,7 @@ This document provides a comprehensive security analysis of the FHIR Sandbox R4 
 
 ---
 
-**⚠️ REMINDER:** This configuration is for **development/learning purposes only**. 
+**⚠️ REMINDER:** This configuration is for **development/demo purposes only**. 
 **DO NOT use in production without implementing the security measures outlined above.**
 
 **Last Updated:** July 16, 2025  
